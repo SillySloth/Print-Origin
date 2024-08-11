@@ -1,0 +1,215 @@
+﻿<Window x:Class="Print_Origin.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Print_Origin"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="600" Width="1050"
+        WindowStyle="none"
+        AllowsTransparency="True"
+        Background="Transparent"
+       
+>
+    <Border Background="white" CornerRadius="10" >
+        <Grid>
+            <Grid.ColumnDefinitions>                
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="160"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="10"/>
+
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="10"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="10"/>
+            </Grid.RowDefinitions>
+
+
+            <Border Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="6" Background="LightGray" MouseLeftButtonDown="DragWindow"/>
+
+            <Button Grid.Column="1" Grid.Row="2" Style="{StaticResource WindowControlButton}" HorizontalAlignment="Left" VerticalAlignment="Bottom">
+                <Image Source="/Resources/Icons/settings.ico"/>
+            </Button>
+
+            <!-- Window Control Buttons -->
+            <StackPanel Orientation="Horizontal" Grid.Column="3" Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="1" HorizontalAlignment="Right">
+                <Button Style="{StaticResource WindowControlButton}" Click="MinimizeButton_Click">
+                    <Image Source="/Resources/Icons/minimise.ico"/>
+                </Button>
+
+                <Button Style="{StaticResource CloseButton}" Click="CloseButton_Click">
+                    <Image Source="/Resources/Icons/close.ico"/>
+                </Button>
+            </StackPanel>       
+
+            <!-- Title -->
+            <TextBlock Text="PRINT ORIGIN" FontSize="20" FontFamily="Gulim" FontWeight="UltraLight" Grid.Row="0" Grid.Column="1" Margin="10 5 0 0"/>
+
+            <StackPanel Orientation="Vertical" Grid.Row="2" Grid.Column="1">
+                <!-- Navbar and menu -->
+                <StackPanel Grid.Row="2" Grid.Column="0" Grid.RowSpan="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                    <RadioButton Name="FlatSheetButton" Style="{StaticResource MenuTab}" IsChecked="True">
+                        <TextBlock Text="Flat Sheet"/>
+                    </RadioButton>
+
+                    <RadioButton Name="RollToRollButton" Style="{StaticResource MenuTab}">
+                        <TextBlock Text="Roll To Roll"/>
+                    </RadioButton>
+                </StackPanel>
+
+                <!-- Stock input textboxes -->
+                <StackPanel Margin="0 15 0 0">
+                    <TextBlock Text="Sheet size:" Margin="0,0,0,5" TextAlignment="Center"/>
+
+                    <StackPanel Orientation="Horizontal">
+                        <TextBox Name="StockWidthTextBox" Style="{StaticResource InputsTextBox}" Text="2000"/>
+                        <TextBlock Text="  X  "/>
+                        <TextBox Name="StockHeightTextBox" Style="{StaticResource InputsTextBox}" Text="2000"/>
+                    </StackPanel>
+
+                    <!-- Print input textboxes -->
+                    <TextBlock Text="Print size:" Margin="0,10,0,5" TextAlignment="Center"/>
+
+                    <StackPanel Orientation="Horizontal">
+                        <TextBox Name="PrintWidthTextBox" Style="{StaticResource InputsTextBox}" Text="1000"/>
+                        <TextBlock Text="  X  "/>
+                        <TextBox Name="PrintHeightTextBox" Style="{StaticResource InputsTextBox}" Text="1000"/>
+                    </StackPanel>
+
+                </StackPanel>
+
+                <!-- Reference point Grid, Set up as left to right for each row -->
+                <Grid HorizontalAlignment="Center" Margin="0,10,0,0">
+                    <!-- x3 Rows, x3 Columns -->
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <RadioButton Grid.Column="0" Grid.Row="0" Style="{StaticResource GridButton}" Name="UpperLeft" Click="SetUpperLeft_Click" >
+                        <RadioButton.Content>
+                            <Image Source="/Resources/Icons/gridCorner.ico"/>
+                        </RadioButton.Content>
+                    </RadioButton>
+                    <RadioButton Grid.Column="1" Grid.Row="0" Style="{StaticResource GridButton}" Name="Upper" Click="SetUpper_Click">
+                        <Image Source="/Resources/Icons/GridEdge.ico" RenderTransformOrigin="0.5, 0.5">
+                            <Image.RenderTransform>
+                                <RotateTransform Angle="0"></RotateTransform>
+                            </Image.RenderTransform>
+                        </Image>
+                    </RadioButton>
+                    <RadioButton Grid.Column="2" Grid.Row="0" Style="{StaticResource GridButton}" Name="UpperRight" Click="SetUpperRight_Click">
+                        <Image Source="/Resources/Icons/gridCorner.ico" RenderTransformOrigin="0.5, 0.5">
+                            <Image.RenderTransform>
+                                <RotateTransform Angle="90"></RotateTransform>
+                            </Image.RenderTransform>
+                        </Image>
+                    </RadioButton>
+                    <RadioButton Grid.Column="0" Grid.Row="1" Style="{StaticResource GridButton}" Name="Left" Click="SetLeft_Click">
+                        <Image Source="/Resources/Icons/GridEdge.ico" RenderTransformOrigin="0.5, 0.5">
+                            <Image.RenderTransform>
+                                <RotateTransform Angle="90"></RotateTransform>
+                            </Image.RenderTransform>
+                        </Image>
+                    </RadioButton>
+                    <RadioButton Grid.Column="1" Grid.Row="1" Style="{StaticResource GridButton}" IsChecked="True" Name="Center" Click="SetCenter_Click">
+                        <Image Source="/Resources/Icons/gridCenter.ico" RenderTransformOrigin="0.5, 0.5">
+                            <Image.RenderTransform>
+                                <RotateTransform Angle="0"></RotateTransform>
+                            </Image.RenderTransform>
+                        </Image>
+                    </RadioButton>
+                    <RadioButton Grid.Column="2" Grid.Row="1" Style="{StaticResource GridButton}" Name="Right" Click="SetRight_Click">
+                        <Image Source="/Resources/Icons/GridEdge.ico" RenderTransformOrigin="0.5, 0.5">
+                            <Image.RenderTransform>
+                                <RotateTransform Angle="90"></RotateTransform>
+                            </Image.RenderTransform>
+                        </Image>
+                    </RadioButton>
+                    <RadioButton Grid.Column="0" Grid.Row="2" Style="{StaticResource GridButton}" Name="LowerLeft" Click="SetLowerLeft_Click">
+                        <Image Source="/Resources/Icons/gridCorner.ico" RenderTransformOrigin="0.5, 0.5">
+                            <Image.RenderTransform>
+                                <RotateTransform Angle="270"></RotateTransform>
+                            </Image.RenderTransform>
+                        </Image>
+                    </RadioButton>
+                    <RadioButton Grid.Column="1" Grid.Row="2" Style="{StaticResource GridButton}" Name="Lower" Click="SetLower_Click">
+                        <Image Source="/Resources/Icons/GridEdge.ico" RenderTransformOrigin="0.5, 0.5">
+                            <Image.RenderTransform>
+                                <RotateTransform Angle="0"></RotateTransform>
+                            </Image.RenderTransform>
+                        </Image>
+                    </RadioButton>
+                    <RadioButton Grid.Column="2" Grid.Row="2" Style="{StaticResource GridButton}" Name="LowerRight" Click="SetLowerRight_Click">
+                        <Image Source="/Resources/Icons/gridCorner.ico" RenderTransformOrigin="0.5, 0.5">
+                            <Image.RenderTransform>
+                                <RotateTransform Angle="180"></RotateTransform>
+                            </Image.RenderTransform>
+                        </Image>
+                    </RadioButton>
+                </Grid>
+
+                <TextBlock Name="AlignmentLabel" Text="Align" HorizontalAlignment="Center"/>
+
+                <!-- Origin Points -->
+                <StackPanel Orientation="Vertical" Margin="0,15,0,0">
+                    <TextBlock Text="Origin points" HorizontalAlignment="Center" Margin="0,0,0,5"/>
+
+                    <StackPanel Orientation="Horizontal">
+                        <TextBox Name="HorizontalTextBox" Style="{StaticResource InputsTextBox}" TextAlignment="left"/>
+                        <TextBlock Text="  -  "/>
+                        <TextBox Name="VerticalTextBox" Style="{StaticResource InputsTextBox}" TextAlignment="left"/>
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- Draw button -->
+                <Button Content="Draw" Name="Custom" Click="SetCustom_Click"
+                Height="25" Width="90" Margin="0,10,0,0" Background="LightBlue"/>
+
+                <StackPanel Orientation="Vertical" Margin="0,35,0,0">
+                    <TextBlock Text="Remaining space:" TextAlignment="Center"/>
+                    <Grid Margin="15,5,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="35"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Column="0" Grid.Row="0" Text="Upper:"></TextBlock>
+                        <TextBox Grid.Column="2" Grid.Row="0" Name="GapUpper"  Style="{StaticResource InputsTextBox}" IsReadOnly="True"></TextBox>
+                        <TextBlock Grid.Column="0" Grid.Row="1" Text="Left:"></TextBlock>
+                        <TextBox Grid.Column="2" Grid.Row="1" Name="GapLeft" Style="{StaticResource InputsTextBox}" IsReadOnly="True"></TextBox>
+                        <TextBlock Grid.Column="0" Grid.Row="2" Text="Right"></TextBlock>
+                        <TextBox Grid.Column="2" Grid.Row="2" Name="GapRight" Style="{StaticResource InputsTextBox}" IsReadOnly="True"></TextBox>
+                        <TextBlock Grid.Column="0" Grid.Row="3" Text="Lower:"></TextBlock>
+                        <TextBox Grid.Column="2" Grid.Row="3" Name="GapLower" Style="{StaticResource InputsTextBox}" IsReadOnly="True"></TextBox>
+                    </Grid>
+                </StackPanel>
+            </StackPanel>
+
+            <!-- Bordered Canvas -->
+            <Viewbox Grid.Row="2" Grid.Column="3">
+                <Border BorderThickness="10" BorderBrush="Black" >
+                    <Canvas x:Name="drawingCanvas" Background="White"  Width="3200" Height="2030"/>
+                </Border>
+            </Viewbox>
+
+        </Grid>
+    </Border>
+</Window>

@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.34928.147
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Print Origin", "Print Origin\Print Origin.csproj", "{F6756D27-4011-4111-AB5D-157BD599975D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F6756D27-4011-4111-AB5D-157BD599975D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6756D27-4011-4111-AB5D-157BD599975D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6756D27-4011-4111-AB5D-157BD599975D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6756D27-4011-4111-AB5D-157BD599975D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3FC378B3-F9FF-4DAC-B83D-B3178F9C30A0}
+	EndGlobalSection
+EndGlobal
