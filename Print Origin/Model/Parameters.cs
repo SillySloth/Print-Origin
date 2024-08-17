@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
+using static Print_Origin.Model.Utilities;
 
 namespace Print_Origin.Model
 {
@@ -21,8 +23,8 @@ namespace Print_Origin.Model
 
         public class OriginPoints
         {
-            public double Horizontal { get; set; }
-            public double Vertical { get; set; }
+            public double Horizontal { get;  }
+            public double Vertical { get; }
 
             public OriginPoints(double horizontal, double vertical)
             {
@@ -33,8 +35,8 @@ namespace Print_Origin.Model
 
         public class PrintSize
         {
-            public double Width { get; set; }
-            public double Height { get; set; }
+            public double Width { get; }
+            public double Height { get; }
 
             public PrintSize(double width, double height)
             {
@@ -45,8 +47,8 @@ namespace Print_Origin.Model
 
         public class StockSize
         {
-            public double Width { get; set; }
-            public double Height { get; set; }
+            public double Width { get; }
+            public double Height { get; }
 
             public StockSize(double width, double height)
             {
@@ -54,14 +56,28 @@ namespace Print_Origin.Model
                 Height = height;
             }
         }
-
-        public static Parameters createParameters(double[] dimensions, OriginPoints originPoints)
+        public static Parameters UpdateParameters(
+            TextBox stockWidthTextBox, 
+            TextBox stockHeightTextBox, 
+            TextBox printWidthTextBox, 
+            TextBox printHeightTextBox,
+            TextBox horizontalOriginTextBox, 
+            TextBox verticalOriginTextBox, 
+            TextBox defaultOffsetTextBox,
+            Position.Placement placement)
         {
-            StockSize stockSize = new(dimensions[0], dimensions[1]);
-            PrintSize printSize = new (dimensions[2], dimensions[3]);
+            double[] dimensions = ConvertInputs(stockWidthTextBox, stockHeightTextBox, printWidthTextBox, printHeightTextBox, horizontalOriginTextBox, verticalOriginTextBox, defaultOffsetTextBox);
+            OriginPoints originPoints = Position.SetPosition(StockCheck(dimensions), placement);
 
-            return new Parameters(stockSize, printSize, originPoints);
+            Parameters parameters = new(
+                new StockSize(dimensions[0], dimensions[1]), 
+                new PrintSize(dimensions[2], dimensions[3]), 
+                new OriginPoints(originPoints.Horizontal, originPoints.Vertical));            
+
+            return parameters;
         }
+
+        
     }
 }
 

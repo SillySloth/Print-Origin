@@ -1,79 +1,93 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Print_Origin.Model
+﻿namespace Print_Origin.Model
 {
     public class Position
     {              
         public enum Placement
         {
-            UpperLeft, Upper, UpperRight, Left, Center, Right, LowerLeft, Lower, LowerRight, Custom
+            AlignUpperLeft, 
+            AlignUpper, 
+            AlignUpperRight, 
+            AlignLeft, 
+            AlignCenter, 
+            AlignRight, 
+            AlignLowerLeft, 
+            AlignLower, 
+            AlignLowerRight, 
+            CustomAlignment
         }       
 
         public static Parameters.OriginPoints SetPosition(double[] dimensions, Placement placement)
         {
-            // [0] == Stock width, [1] == Stock Height, [2] == Print width, [3] == Print height, [4] == Print height, [5] == Print height  
-
-            double horizontal = 0, vertical = 0;
-
+            // [0] == Stock width, [1] == Stock Height, [2] == Print width, [3] == Print height, [4] == Horizontal, [5] == Vertical, [6] == Offset
+            
             switch (placement)
             {
-                case Placement.UpperLeft:
-                    horizontal = (dimensions[0] - dimensions[2]);
-                    vertical = (dimensions[1] - dimensions[3]);
-                    return new Parameters.OriginPoints(horizontal, vertical);
+                case Placement.AlignUpperLeft:                    
+                    return new Parameters.OriginPoints(
+                        (dimensions[0] - dimensions[2]) - dimensions[6], 
+                        (dimensions[1] - dimensions[3]) - dimensions[6]
+                        );
 
-                case Placement.Upper:
-                    horizontal = (dimensions[0] - dimensions[2]) / 2;
-                    vertical = (dimensions[1] - dimensions[3]);
-                    return new Parameters.OriginPoints(horizontal, vertical);
+                case Placement.AlignUpper:                    
+                    return new Parameters.OriginPoints(
+                        (dimensions[0] - dimensions[2]) / 2, 
+                        dimensions[1] - dimensions[3] - dimensions[6]
+                        );
 
-                case Placement.UpperRight:
-                    horizontal = 0;
-                    vertical = (dimensions[1] - dimensions[3]);
-                    return new Parameters.OriginPoints(horizontal, vertical);
+                case Placement.AlignUpperRight:
+                    return new Parameters.OriginPoints(
+                        dimensions[6], 
+                        (dimensions[1] - dimensions[3]) - dimensions[6]
+                        );
 
-                case Placement.Left:
-                    horizontal = (dimensions[0] - dimensions[2]);
-                    vertical = (dimensions[1] - dimensions[3]) / 2;
-                    return new Parameters.OriginPoints(horizontal, vertical);
+                case Placement.AlignLeft:                    
+                    return new Parameters.OriginPoints(
+                        (dimensions[0] - dimensions[2]) - dimensions[6], 
+                        (dimensions[1] - dimensions[3]) / 2
+                        );
 
-                case Placement.Center:
-                    horizontal = (dimensions[0] - dimensions[2]) / 2;
-                    vertical = (dimensions[1] - dimensions[3]) / 2;
-                    return new Parameters.OriginPoints(horizontal, vertical);                    
+                case Placement.AlignCenter:                    
+                    return new Parameters.OriginPoints(
+                        (dimensions[0] - dimensions[2]) / 2, 
+                        (dimensions[1] - dimensions[3]) / 2
+                        );                    
 
-                case Placement.Right:
-                    horizontal = 0;
-                    vertical = (dimensions[1] - dimensions[3]) / 2;
-                    return new Parameters.OriginPoints(horizontal, vertical);
+                case Placement.AlignRight:                   
+                    return new Parameters.OriginPoints(
+                        dimensions[6], 
+                        (dimensions[1] - dimensions[3]) / 2
+                        );
 
-                case Placement.LowerLeft:
-                    horizontal = (dimensions[0] - dimensions[2]);
-                    vertical = 0;
-                    return new Parameters.OriginPoints(horizontal, vertical);
+                case Placement.AlignLowerLeft:                    
+                    return new Parameters.OriginPoints(
+                        (dimensions[0] - dimensions[2]) - dimensions[6],
+                        dimensions[6]
+                        );
 
-                case Placement.Lower:
-                    horizontal = (dimensions[0] - dimensions[2]) / 2;
-                    vertical = 0;
-                    return new Parameters.OriginPoints(horizontal, vertical);
+                case Placement.AlignLower:                    
+                    return new Parameters.OriginPoints(
+                        (dimensions[0] - dimensions[2]) / 2,
+                        dimensions[6]
+                        );
 
-                case Placement.LowerRight:
-                    horizontal = 0;
-                    vertical = 0;
-                    return new Parameters.OriginPoints(horizontal, vertical);
+                case Placement.AlignLowerRight:                    
+                    return new Parameters.OriginPoints(
+                        dimensions[6], 
+                        dimensions[6]
+                        );
 
-                case Placement.Custom:                    
-                    return new Parameters.OriginPoints(dimensions[4], dimensions[5]);
-            }          
+                case Placement.CustomAlignment:                    
+                    return new Parameters.OriginPoints(
+                        dimensions[4], 
+                        dimensions[5]
+                        );
 
-            return new Parameters.OriginPoints(0, 0);
-
-        }
-
+                default:
+                    return new Parameters.OriginPoints(
+                        dimensions[6], 
+                        dimensions[6]
+                        );
+            }       
+        }     
     }
 }
