@@ -1,6 +1,4 @@
-﻿using System.Reflection;
-using System.Security.Cryptography.X509Certificates;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 
 namespace Print_Origin.Model
@@ -124,19 +122,35 @@ namespace Print_Origin.Model
             }                       
         }  
         
-        public static double[] StockCheck(double[] dimensions)
-        {
-            double maxWidth = 3200;
-            double maxHeight = 2030;           
+        public static Parameters ParametersValidation(Parameters parameters)
+        {                      
+            double maxWidth = 3200, maxHeight = 2030;
+            double maximumOffset = 50;
 
-            if (dimensions[0] > maxWidth)             
-                dimensions[0] = maxWidth;             
+            double
+                stockWidth = parameters.Stock.Width,
+                stockHeight = parameters.Stock.Height,
+                printWidth = parameters.Print.Width,
+                printHeight = parameters.Print.Height,
+                horizontal = parameters.Origin.Horizontal,
+                vertical = parameters.Origin.Vertical;
+            
+            //Stock checks
+            if (stockWidth > maxWidth) stockWidth = maxWidth;
+            if (stockHeight > maxHeight) stockHeight = maxHeight;
 
-            if (dimensions[1] > maxHeight)            
-                dimensions[1] = maxHeight;           
-                     
-            return dimensions;
+            //Print checks
+            if (printWidth + horizontal > maxWidth + maximumOffset) printWidth = 0;
+            if (printHeight + vertical > maxHeight + maximumOffset) printHeight = 0;
 
-        }        
+            
+            
+            return new Parameters (
+                new Parameters.StockSize(stockWidth, stockHeight),
+                new Parameters.PrintSize(printWidth, printHeight),
+                new Parameters.OriginPoints(horizontal, vertical));            
+        }  
+        
+      
     }
 }

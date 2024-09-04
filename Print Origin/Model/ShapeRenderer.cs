@@ -32,7 +32,8 @@ namespace Print_Origin.Model
                 Print = CreatePrintRectangle(parameters);
             }
         
-        }                 
+        }
+        
         public static Rectangle CreateRectangle(double width, double height, Brush stroke, Brush fill, double thickness)
         {
             return new Rectangle

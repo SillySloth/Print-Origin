@@ -67,14 +67,14 @@ namespace Print_Origin.Model
             Position.Placement placement)
         {
             double[] dimensions = ConvertInputs(stockWidthTextBox, stockHeightTextBox, printWidthTextBox, printHeightTextBox, horizontalOriginTextBox, verticalOriginTextBox, defaultOffsetTextBox);
-            OriginPoints originPoints = Position.SetPosition(StockCheck(dimensions), placement);
+            OriginPoints originPoints = Position.SetPosition(dimensions, placement);
 
             Parameters parameters = new(
                 new StockSize(dimensions[0], dimensions[1]), 
                 new PrintSize(dimensions[2], dimensions[3]), 
                 new OriginPoints(originPoints.Horizontal, originPoints.Vertical));            
 
-            return parameters;
+            return ParametersValidation(parameters);
         }
 
         

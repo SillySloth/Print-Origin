@@ -5,213 +5,231 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Print_Origin"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="1050"
-        WindowStyle="none"
-        AllowsTransparency="True"
-        Background="Transparent"
-       
->
+        Title="Print Origin" Height="970" Width="960">
+    
     <Border Background="white" CornerRadius="10" >
         <Grid>
-            <Grid.ColumnDefinitions>                
+            <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="10"/>
-                <ColumnDefinition Width="160"/>
-                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="30"/>
+                <ColumnDefinition Width="160"/>                
+                <ColumnDefinition Width="200"/>                
+                <ColumnDefinition Width="260"/>                               
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="10"/>
 
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="30"/>
+                <RowDefinition Height="10"/>
+                <RowDefinition Height="160"/>
                 <RowDefinition Height="10"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="10"/>
+                <RowDefinition Height="160"/>
+                <RowDefinition Height="10"/>
             </Grid.RowDefinitions>
+       
+            <!-- Navbar and menu -->
+            <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Margin="0 16 0 0">
+                <RadioButton Name="FlatSheetButton" Style="{StaticResource MenuTab}" IsChecked="True">
+                    <TextBlock Text="Flat Sheet"/>
+                </RadioButton>
 
-
-            <Border Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="6" Background="LightGray" MouseLeftButtonDown="DragWindow"/>
-
-            <Button Grid.Column="1" Grid.Row="2" Style="{StaticResource WindowControlButton}" HorizontalAlignment="Left" VerticalAlignment="Bottom">
-                <Image Source="/Resources/Icons/settings.ico"/>
-            </Button>
-
-            <!-- Window Control Buttons -->
-            <StackPanel Orientation="Horizontal" Grid.Column="3" Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="1" HorizontalAlignment="Right">
-                <Button Style="{StaticResource WindowControlButton}" Click="MinimizeButton_Click">
-                    <Image Source="/Resources/Icons/minimise.ico"/>
-                </Button>
-
-                <Button Style="{StaticResource CloseButton}" Click="CloseButton_Click">
-                    <Image Source="/Resources/Icons/close.ico"/>
-                </Button>
-            </StackPanel>       
-
-            <!-- Title -->
-            <TextBlock Text="PRINT ORIGIN" FontSize="20" FontFamily="Gulim" FontWeight="UltraLight" Grid.Row="0" Grid.Column="1" Margin="10 5 0 0"/>
-
-            <StackPanel Orientation="Vertical" Grid.Row="2" Grid.Column="1">
-                <!-- Navbar and menu -->
-                <StackPanel Grid.Row="2" Grid.Column="0" Grid.RowSpan="1" Orientation="Horizontal" HorizontalAlignment="Right">
-                    <RadioButton Name="FlatSheetButton" Style="{StaticResource MenuTab}" IsChecked="True">
-                        <TextBlock Text="Flat Sheet"/>
-                    </RadioButton>
-
-                    <RadioButton Name="RollToRollButton" Style="{StaticResource MenuTab}">
-                        <TextBlock Text="Roll To Roll"/>
-                    </RadioButton>
-                </StackPanel>
-
+                <RadioButton Name="RollToRollButton" Style="{StaticResource MenuTab}">
+                    <TextBlock Text="Roll To Roll"/>
+                </RadioButton>
+            </StackPanel>
+            
+            <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center">
                 <!-- Stock input textboxes -->
-                <StackPanel Margin="0 15 0 0">
-                    <TextBlock Text="Sheet size:" Margin="0,0,0,5" TextAlignment="Center"/>
+                <TextBlock Text="Sheet size:" FontSize="16" Margin="0 0 0 10"/>
 
-                    <StackPanel Orientation="Horizontal">
-                        <TextBox x:Name="StockWidthTextBox" Style="{StaticResource InputsTextBox}" Text="2440"/>
-                        <TextBlock Text="  X  "/>
-                        <TextBox x:Name="StockHeightTextBox" Style="{StaticResource InputsTextBox}" Text="1220"/>
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Width:   " />
+                            <TextBox Name="StockWidthTextBox" Style="{StaticResource InputsTextBox}" Text="2440" />
+                        </StackPanel>                
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Height:  " />
+                            <TextBox Name="StockHeightTextBox" Style="{StaticResource InputsTextBox}" Text="1220"/>
+                        </StackPanel>
                     </StackPanel>
 
-                    <!-- Print input textboxes -->
-                    <TextBlock Text="Print size:" Margin="0,10,0,5" TextAlignment="Center"/>
-
-                    <StackPanel Orientation="Horizontal">
-                        <TextBox Name="PrintWidthTextBox" Style="{StaticResource InputsTextBox}" Text="2000"/>
-                        <TextBlock Text="  X  "/>
-                        <TextBox Name="PrintHeightTextBox" Style="{StaticResource InputsTextBox}" Text="1000"/>
-                    </StackPanel>
-
+                    <Grid>
+                        <ComboBox Name="SheetSelect" Width="16" Height="16" VerticalAlignment="Center" HorizontalAlignment="Center" SelectionChanged="myComboBox_SelectionChanged">
+                            <ComboBoxItem Content="2440 x 1220" Background="LightGray"/>
+                            <ComboBoxItem Content="2200 x 1520" Background="LightGray"/>
+                            <ComboBoxItem Content="2290 x 1220" Background="LightGray"/>
+                            <ComboBoxItem Content="2200 x 1550" Background="LightGray"/>
+                            <ComboBoxItem Content="2200 x 1550" Background="LightGray"/>
+                            <ComboBoxItem Content="2400 x 1200" Background="LightGray"/>
+                        </ComboBox>
+                    </Grid>
                 </StackPanel>
 
-                <!-- Reference point Grid, Set up as left to right for each row -->
-                <Grid HorizontalAlignment="Center" Margin="0,10,0,0">
-                    <!-- x3 Rows, x3 Columns -->
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
+                <!-- Print input textboxes -->
+                <TextBlock Text="Print size:" FontSize="16" Margin="0 20 0 10"/>
 
-                    <RadioButton Grid.Column="0" Grid.Row="0" Style="{StaticResource GridButton}" Name="AlignUpperLeft" Click="SetPosition_Click" >
-                        <RadioButton.Content>
-                            <Image Source="/Resources/Icons/gridCorner.ico"/>
-                        </RadioButton.Content>
-                    </RadioButton>
-                    <RadioButton Grid.Column="1" Grid.Row="0" Style="{StaticResource GridButton}" Name="AlignUpper" Click="SetPosition_Click">
-                        <Image Source="/Resources/Icons/GridEdge.ico" RenderTransformOrigin="0.5, 0.5">
-                            <Image.RenderTransform>
-                                <RotateTransform Angle="0"></RotateTransform>
-                            </Image.RenderTransform>
-                        </Image>
-                    </RadioButton>
-                    <RadioButton Grid.Column="2" Grid.Row="0" Style="{StaticResource GridButton}" Name="AlignUpperRight" Click="SetPosition_Click">
-                        <Image Source="/Resources/Icons/gridCorner.ico" RenderTransformOrigin="0.5, 0.5">
-                            <Image.RenderTransform>
-                                <RotateTransform Angle="90"></RotateTransform>
-                            </Image.RenderTransform>
-                        </Image>
-                    </RadioButton>
-                    <RadioButton Grid.Column="0" Grid.Row="1" Style="{StaticResource GridButton}" Name="AlignLeft" Click="SetPosition_Click">
-                        <Image Source="/Resources/Icons/GridEdge.ico" RenderTransformOrigin="0.5, 0.5">
-                            <Image.RenderTransform>
-                                <RotateTransform Angle="90"></RotateTransform>
-                            </Image.RenderTransform>
-                        </Image>
-                    </RadioButton>
-                    <RadioButton Grid.Column="1" Grid.Row="1" Style="{StaticResource GridButton}" IsChecked="True" Name="AlignCenter" Click="SetPosition_Click">
-                        <Image Source="/Resources/Icons/gridCenter.ico" RenderTransformOrigin="0.5, 0.5">
-                            <Image.RenderTransform>
-                                <RotateTransform Angle="0"></RotateTransform>
-                            </Image.RenderTransform>
-                        </Image>
-                    </RadioButton>
-                    <RadioButton Grid.Column="2" Grid.Row="1" Style="{StaticResource GridButton}" Name="AlignRight" Click="SetPosition_Click">
-                        <Image Source="/Resources/Icons/GridEdge.ico" RenderTransformOrigin="0.5, 0.5">
-                            <Image.RenderTransform>
-                                <RotateTransform Angle="90"></RotateTransform>
-                            </Image.RenderTransform>
-                        </Image>
-                    </RadioButton>
-                    <RadioButton Grid.Column="0" Grid.Row="2" Style="{StaticResource GridButton}" Name="AlignLowerLeft" Click="SetPosition_Click">
-                        <Image Source="/Resources/Icons/gridCorner.ico" RenderTransformOrigin="0.5, 0.5">
-                            <Image.RenderTransform>
-                                <RotateTransform Angle="270"></RotateTransform>
-                            </Image.RenderTransform>
-                        </Image>
-                    </RadioButton>
-                    <RadioButton Grid.Column="1" Grid.Row="2" Style="{StaticResource GridButton}" Name="AlignLower" Click="SetPosition_Click">
-                        <Image Source="/Resources/Icons/GridEdge.ico" RenderTransformOrigin="0.5, 0.5">
-                            <Image.RenderTransform>
-                                <RotateTransform Angle="0"></RotateTransform>
-                            </Image.RenderTransform>
-                        </Image>
-                    </RadioButton>
-                    <RadioButton Grid.Column="2" Grid.Row="2" Style="{StaticResource GridButton}" Name="AlignLowerRight" Click="SetPosition_Click">
-                        <Image Source="/Resources/Icons/gridCorner.ico" RenderTransformOrigin="0.5, 0.5">
-                            <Image.RenderTransform>
-                                <RotateTransform Angle="180"></RotateTransform>
-                            </Image.RenderTransform>
-                        </Image>
-                    </RadioButton>
-                </Grid>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Width:   " />
+                    <TextBox Name="PrintWidthTextBox" Style="{StaticResource InputsTextBox}" Text="2000" />
+                </StackPanel>
 
-                <TextBlock Name="AlignmentLabel" Text="Align" HorizontalAlignment="Center"/>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Height:  " />
+                    <TextBox Name="PrintHeightTextBox" Style="{StaticResource InputsTextBox}" Text="1000" />
+                </StackPanel>                  
+            </StackPanel>
+            
 
+            <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Center">
                 <!-- Origin Points -->
-                <StackPanel Orientation="Vertical" Margin="0,15,0,0">
-                    <TextBlock Text="Origin points" HorizontalAlignment="Center" Margin="0,0,0,5"/>
+                <TextBlock Text="Origin points"  FontSize="16" Margin="0 0 0 10"/>
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel Orientation="Vertical">
+                        
 
-                    <StackPanel Orientation="Horizontal">
-                        <TextBox Name="HorizontalTextBox" Style="{StaticResource InputsTextBox}" TextAlignment="Center"/>
-                        <TextBlock Text="  X  "/>
-                        <TextBox Name="VerticalTextBox" Style="{StaticResource InputsTextBox}" TextAlignment="Center"/>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Horizontal:  " />
+                            <TextBox Name="HorizontalTextBox" Style="{StaticResource InputsTextBox}" TextAlignment="Center"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Vertical:       " />
+                            <TextBox Name="VerticalTextBox" Style="{StaticResource InputsTextBox}" TextAlignment="Center"/>
+                        </StackPanel>                                           
                     </StackPanel>
+
+                    <!-- Draw button -->
+                    <Button Name="CustomAlignment" Click="SetPosition_Click" Height="25" Width="25" Background="LightBlue" Margin="10 0 0 0"/>
                 </StackPanel>
 
-                <!-- Draw button -->
-                <Button Content="Draw" Name="CustomAlignment" Click="SetPosition_Click"
-                Height="25" Width="90" Margin="0,10,0,0" Background="LightBlue"/>
 
-                <StackPanel Orientation="Vertical" Margin="0,35,0,0">
-                    <TextBlock Text="Margins:" TextAlignment="Center"/>
-                    <Grid Margin="15,5,0,0">
+                <StackPanel Orientation="Vertical" VerticalAlignment="Center" Margin="0 20 0 0">
+                    <!-- Reference point Grid, Set up as left to right for each row -->
+                    <Grid HorizontalAlignment="Center">
+                        <!-- x3 Rows, x3 Columns -->
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="45"/>
-                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
 
-                        <TextBlock Grid.Column="0" Grid.Row="0" Text="Top:" TextAlignment="Right"/>
-                        <TextBox Grid.Column="2" Grid.Row="0" Name="MarginTopTextBox"  Style="{StaticResource InputsTextBox}" IsReadOnly="True"/>
-                        <TextBlock Grid.Column="0" Grid.Row="1" Text="Left:" TextAlignment="Right"/>
-                        <TextBox Grid.Column="2" Grid.Row="1" Name="MarginLeftTextBox" Style="{StaticResource InputsTextBox}" IsReadOnly="True"/>
-                        <TextBlock Grid.Column="0" Grid.Row="2" Text="Right" TextAlignment="Right"/>
-                        <TextBox Grid.Column="2" Grid.Row="2" Name="MarginRightTextBox" Style="{StaticResource InputsTextBox}" IsReadOnly="True"/>
-                        <TextBlock Grid.Column="0" Grid.Row="3" Text="Bottom:" TextAlignment="Right"/>
-                        <TextBox Grid.Column="2" Grid.Row="3" Name="MarginBottomTextBox" Style="{StaticResource InputsTextBox}" IsReadOnly="True"/>
-                    </Grid>
-                </StackPanel>                
-                
-                <StackPanel Orientation="Horizontal" Margin="0,25,0,0" HorizontalAlignment="Center">
-                    <TextBlock Grid.Column="0" Grid.Row="0" Text="Default Offset: "/>
-                    <TextBox Grid.Column="2" Grid.Row="0" Name="DefaultOffsetTextBox" Style="{StaticResource InputsTextBox}" HorizontalAlignment="Center" Text="25"/>
+                        <RadioButton Grid.Column="0" Grid.Row="0" Style="{StaticResource GridButton}" Name="AlignUpperLeft" Click="SetPosition_Click" KeyDown="OnKeyDownHandler" >
+                            <RadioButton.Content>
+                                <Image Source="/Resources/Icons/gridCorner.ico"/>
+                            </RadioButton.Content>
+                        </RadioButton>
+                        <RadioButton Grid.Column="1" Grid.Row="0" Style="{StaticResource GridButton}" Name="AlignUpper" Click="SetPosition_Click" KeyDown="OnKeyDownHandler">
+                            <Image Source="/Resources/Icons/GridEdge.ico" RenderTransformOrigin="0.5, 0.5">
+                                <Image.RenderTransform>
+                                    <RotateTransform Angle="0"></RotateTransform>
+                                </Image.RenderTransform>
+                            </Image>
+                        </RadioButton>
+                        <RadioButton Grid.Column="2" Grid.Row="0" Style="{StaticResource GridButton}" Name="AlignUpperRight" Click="SetPosition_Click" KeyDown="OnKeyDownHandler">
+                            <Image Source="/Resources/Icons/gridCorner.ico" RenderTransformOrigin="0.5, 0.5">
+                                <Image.RenderTransform>
+                                    <RotateTransform Angle="90"></RotateTransform>
+                                </Image.RenderTransform>
+                            </Image>
+                        </RadioButton>
+                        <RadioButton Grid.Column="0" Grid.Row="1" Style="{StaticResource GridButton}" Name="AlignLeft" Click="SetPosition_Click" KeyDown="OnKeyDownHandler">
+                            <Image Source="/Resources/Icons/GridEdge.ico" RenderTransformOrigin="0.5, 0.5">
+                                <Image.RenderTransform>
+                                    <RotateTransform Angle="90"></RotateTransform>
+                                </Image.RenderTransform>
+                            </Image>
+                        </RadioButton>
+                        <RadioButton Grid.Column="1" Grid.Row="1" Style="{StaticResource GridButton}" IsChecked="True" Name="AlignCenter" Click="SetPosition_Click" KeyDown="OnKeyDownHandler">
+                            <Image Source="/Resources/Icons/gridCenter.ico" RenderTransformOrigin="0.5, 0.5">
+                                <Image.RenderTransform>
+                                    <RotateTransform Angle="0"></RotateTransform>
+                                </Image.RenderTransform>
+                            </Image>
+                        </RadioButton>
+                        <RadioButton Grid.Column="2" Grid.Row="1" Style="{StaticResource GridButton}" Name="AlignRight" Click="SetPosition_Click" KeyDown="OnKeyDownHandler">
+                            <Image Source="/Resources/Icons/GridEdge.ico" RenderTransformOrigin="0.5, 0.5">
+                                <Image.RenderTransform>
+                                    <RotateTransform Angle="90"></RotateTransform>
+                                </Image.RenderTransform>
+                            </Image>
+                        </RadioButton>
+                        <RadioButton Grid.Column="0" Grid.Row="2" Style="{StaticResource GridButton}" Name="AlignLowerLeft" Click="SetPosition_Click" KeyDown="OnKeyDownHandler">
+                            <Image Source="/Resources/Icons/gridCorner.ico" RenderTransformOrigin="0.5, 0.5">
+                                <Image.RenderTransform>
+                                    <RotateTransform Angle="270"></RotateTransform>
+                                </Image.RenderTransform>
+                            </Image>
+                        </RadioButton>
+                        <RadioButton Grid.Column="1" Grid.Row="2" Style="{StaticResource GridButton}" Name="AlignLower" Click="SetPosition_Click" KeyDown="OnKeyDownHandler">
+                            <Image Source="/Resources/Icons/GridEdge.ico" RenderTransformOrigin="0.5, 0.5">
+                                <Image.RenderTransform>
+                                    <RotateTransform Angle="0"></RotateTransform>
+                                </Image.RenderTransform>
+                            </Image>
+                        </RadioButton>
+                        <RadioButton Grid.Column="2" Grid.Row="2" Style="{StaticResource GridButton}" Name="AlignLowerRight" Click="SetPosition_Click" KeyDown="OnKeyDownHandler">
+                            <Image Source="/Resources/Icons/gridCorner.ico" RenderTransformOrigin="0.5, 0.5">
+                                <Image.RenderTransform>
+                                    <RotateTransform Angle="180"></RotateTransform>
+                                </Image.RenderTransform>
+                            </Image>
+                        </RadioButton>
+                    </Grid>                    
                 </StackPanel>
+                
+                <TextBlock Name="AlignmentLabel" Text="Alignment label" HorizontalAlignment="Center"/>
             </StackPanel>
 
+            <!-- Margins -->
+            <Grid Grid.Column="5" Grid.Row="1" >
+                <TextBlock Text="Margins" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                <TextBlock Text="0" Name="MarginTop" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+                <TextBlock Text="0" Name="MarginBottom" VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
+                <TextBlock Text="0" Name="MarginLeft" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10 0 0 0"/>
+                <TextBlock Text="0" Name="MarginRight" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0 0 10 0"/>
+                <Image Source="/Resources/Icons/margins.png" Height="110" Width="160"/>
+            </Grid>
+
+            <!-- Scripting buttons -->
+            <StackPanel Grid.Row="1" Grid.Column="6" VerticalAlignment="Center">
+                <Button Content="Push" Name="Push" Click="PushOriginPoints_Click" Height="50" Width="100" Background="LightBlue"/>
+                <StackPanel Orientation="Horizontal" Margin="0 20 0 0" HorizontalAlignment="Center">
+                    <Button Content="Pull" Name="Pull" Click="PullParameters_Click" Height="50" Width="100" Background="LightBlue" Margin="0 0 4 0"/>
+            </StackPanel>
+                
+            </StackPanel>
+
+            
+            <!-- Settings -->
+            <StackPanel  Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="5" HorizontalAlignment="Left">                             
+                <TextBlock Text="Settings"  FontSize="16" Margin="0 0 0 10"/>
+
+                <StackPanel Orientation="Horizontal" Margin="0 0 0 10">
+                    <TextBlock Text="Default Offset:  "/>
+                    <TextBox Name="DefaultOffsetTextBox" Style="{StaticResource InputsTextBox}" Text="25"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" >
+                    <TextBlock Text="Push Script: "/>
+                    <TextBox Name="PushScriptTextBox" Text="Insert Script Path"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" >
+                    <TextBlock Text="Pull Script: "/>
+                    <TextBox Name="PullScriptTextBox" Text="Insert Script Path"/>
+                </StackPanel>               
+            </StackPanel>
+
+
             <!-- Bordered Canvas -->
-
-
-            <Grid Grid.Row="2" Grid.Column="3">
+            <Grid Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="6" VerticalAlignment="Top">
                 <Viewbox>
                     <Grid>
                         <!-- Canvas inside Viewbox -->
@@ -226,14 +244,12 @@
                        FontSize="250"
                        Foreground="Blue"
                        Background="Transparent"/>
-                        -->
-                        
+                        -->                    
                         
                     </Grid>
                 </Viewbox>
-            </Grid>
-
-
+            </Grid>           
         </Grid>
     </Border>
 </Window>
+    

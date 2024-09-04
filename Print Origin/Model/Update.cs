@@ -1,5 +1,7 @@
 ﻿using System.Windows.Controls;
+using System.Windows.Media;
 using static Print_Origin.Model.Utilities;
+using System;
 
 
 namespace Print_Origin.Model
@@ -23,12 +25,13 @@ namespace Print_Origin.Model
             public TextBox PrintHeight { get; set; }
             public TextBox HorizontalOrigin { get; set; }
             public TextBox VerticalOrigin { get; set; }
-            public TextBox MarginTop { get; set; }
-            public TextBox MarginLeft { get; set; }
-            public TextBox MarginRight { get; set; }
-            public TextBox MarginBottom { get; set; }
+            public TextBlock MarginTop { get; set; }
+            public TextBlock MarginLeft { get; set; }
+            public TextBlock MarginRight { get; set; }
+            public TextBlock MarginBottom { get; set; }
+            public TextBox Offset {  get; set; }
 
-            public TextBoxGroup(TextBox stockWidth, TextBox stockHeight, TextBox printWidth, TextBox printHeight, TextBox horizontalOrigin, TextBox verticalOrigin, TextBox gapUpper, TextBox gapLeft, TextBox gapRight, TextBox gapLower)
+            public TextBoxGroup(TextBox stockWidth, TextBox stockHeight, TextBox printWidth, TextBox printHeight, TextBox horizontalOrigin, TextBox verticalOrigin, TextBox offset, TextBlock marginTop, TextBlock marginLeft, TextBlock marginRight, TextBlock marginBottom)
             {
                 StockWidth = stockWidth;
                 StockHeight = stockHeight;
@@ -36,10 +39,11 @@ namespace Print_Origin.Model
                 PrintHeight = printHeight;
                 HorizontalOrigin = horizontalOrigin;
                 VerticalOrigin = verticalOrigin;
-                MarginTop = gapUpper;
-                MarginLeft = gapLeft;
-                MarginRight = gapRight;
-                MarginBottom = gapLower;
+                MarginTop = marginTop;
+                MarginLeft = marginLeft;
+                MarginRight = marginRight;
+                MarginBottom = marginBottom;
+                Offset = offset;
             }
         }
 
@@ -68,15 +72,35 @@ namespace Print_Origin.Model
 
         private void UpdateText(Parameters parameters)
         {
-            Alignment.AlignmentLabel.Text = SetAlignmentLabel(Alignment.Placement);
-            TextBoxes.HorizontalOrigin.Text = parameters.Origin.Horizontal.ToString();
-            TextBoxes.VerticalOrigin.Text = parameters.Origin.Vertical.ToString();
-            TextBoxes.MarginTop.Text = (parameters.Stock.Height - parameters.Print.Height - parameters.Origin.Vertical).ToString();
-            TextBoxes.MarginLeft.Text = (parameters.Stock.Width - parameters.Print.Width - parameters.Origin.Horizontal).ToString();
-            TextBoxes.MarginRight.Text = parameters.Origin.Horizontal.ToString();
-            TextBoxes.MarginBottom.Text = parameters.Origin.Vertical.ToString();
-        }        
+            TextBoxes.MarginTop.Text = Math.Round((parameters.Stock.Height - parameters.Print.Height - parameters.Origin.Vertical),2).ToString();
+            TextBoxes.MarginLeft.Text = Math.Round((parameters.Stock.Width - parameters.Print.Width - parameters.Origin.Horizontal), 2).ToString();
+            TextBoxes.MarginRight.Text = Math.Round(parameters.Origin.Horizontal, 2).ToString();
+            TextBoxes.MarginBottom.Text = Math.Round(parameters.Origin.Vertical, 2).ToString();
 
+
+            TextBoxes.HorizontalOrigin.Foreground = UpdateForegroundColor(parameters.Origin.Horizontal);
+            TextBoxes.VerticalOrigin.Foreground = UpdateForegroundColor(parameters.Origin.Vertical);
+            TextBoxes.MarginTop.Foreground = UpdateForegroundColor((parameters.Stock.Height - parameters.Print.Height - parameters.Origin.Vertical));
+            TextBoxes.MarginLeft.Foreground = UpdateForegroundColor((parameters.Stock.Width - parameters.Print.Width - parameters.Origin.Horizontal));
+            TextBoxes.MarginRight.Foreground = UpdateForegroundColor(parameters.Origin.Horizontal);
+            TextBoxes.MarginBottom.Foreground = UpdateForegroundColor(parameters.Origin.Vertical);
+
+            Alignment.AlignmentLabel.Text = SetAlignmentLabel(Alignment.Placement);
+            TextBoxes.StockWidth.Text = parameters.Stock.Width.ToString();
+            TextBoxes.StockHeight.Text = parameters.Stock.Height.ToString();
+            TextBoxes.HorizontalOrigin.Text = Math.Round(parameters.Origin.Horizontal, 2).ToString();
+            TextBoxes.VerticalOrigin.Text = Math.Round(parameters.Origin.Vertical, 2).ToString();
+
+        }
+        public static Brush UpdateForegroundColor(double parameter)
+        {
+            if (parameter < 0)            
+                return Brushes.Red;            
+
+            else
+                return Brushes.Black;
+
+        }
 
     }
 }
